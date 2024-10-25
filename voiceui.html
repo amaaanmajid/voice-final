@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM Voice Assistant</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+            width: 100%;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+        #output {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            min-height: 120px;
+            font-size: 1.1rem;
+            background-color: #f9f9f9;
+            color: #555;
+            overflow-y: auto;
+        }
+        button {
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ab9;
+        }
+        button:focus {
+            outline: none;
+        }
+        .container p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+                max-width: 90%;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            button {
+                padding: 0.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SRM Voice Assistant</h1>
+        <p>Click the button below and speak your query.</p>
+        <button id="startButton">Start Listening</button>
+        <div id="output">Your conversation will appear here...</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const startButton = document.getElementById('startButton');
+        const output = document.getElementById('output');
+        let recognition;
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                output.innerHTML = `You said: ${transcript}`;
+                sendToAssistant(transcript);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+                output.innerHTML = `Error: ${event.error}`;
+            };
+        } else {
+            startButton.style.display = 'none';
+            output.innerHTML = 'Speech recognition not supported in this browser.';
+        }
+
+        startButton.onclick = function() {
+            if (recognition) {
+                recognition.start();
+                output.innerHTML = 'Listening...';
+            }
+        };
+
+        async function sendToAssistant(text) {
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/assistant', { input: text });
+                const assistantResponse = response.data.response;
+                output.innerHTML += `<br><br><strong>Assistant:</strong> ${assistantResponse}`;
+                speak(assistantResponse);
+            } catch (error) {
+                console.error('Error communicating with assistant:', error);
+                output.innerHTML += '<br><br><strong>Error communicating with assistant.</strong>';
+            }
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

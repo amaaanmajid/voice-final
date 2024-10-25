@@ -1,0 +1,33 @@
+________________________________________
+AI: Hi, there,Good Morning my name is majid. how can I help? 
+
+You: how
+ 
+AI: 
+________________________________________
+AI: Hi, there,Good Morning my name is majid. how can I help? 
+
+________________________________________
+AI: Hi, there,Good Morning my name is majid. how can I help? 
+
+________________________________________
+AI: Hi, there,Good Morning my name is SRM bot. how can I help? 
+
+You: i bought
+ 
+AI: 
+You started to say something about buying something, but didn't finish the sentence. Would you like to share what you bought? I'm curious!
+________________________________________
+AI: Hi, there,Good Morning my name is majid. how can I help? 
+
+You: could you tell me today's date
+ 
+AI: 
+I'm just an AI, I don't have access to real-time information or a physical clock. However, I can suggest some ways for you to find out the current date:
+
+1. Check your phone or computer: Most devices display the current date and time on their home screens.
+2. Ask Siri or Google Assistant: If you have a virtual assistant like Siri (on Apple devices) or Google Assistant (on Android devices), you can ask them "What's today's date?" and they'll tell you.
+3. Check a calendar app: You can open a digital calendar app on your device, such as Google Calendar or Apple Calendar, to see the current date.
+4. Look at a physical clock: If you have access to a physical clock, you can check the date printed on it.
+
+I hope that helps!

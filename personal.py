@@ -1,0 +1,53 @@
+import getpass
+import os
+from langchain_core.messages import HumanMessage
+
+os.environ["OPENAI_API_KEY"] = "API"
+
+from langchain_openai import ChatOpenAI
+
+model = ChatOpenAI(model="gpt-3.5-turbo")
+from langchain_core.messages import AIMessage
+from langchain_core.chat_history import (
+    BaseChatMessageHistory,
+    InMemoryChatMessageHistory,
+)
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+store = {}
+
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    return store[session_id]
+
+
+with_message_history = RunnableWithMessageHistory(model, get_session_history)
+config = {"configurable": {"session_id": "abc2"}}
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are a voice assistant,helping people for srm admission related queries. when people come to u ask them how can u assist them for srm related queries Answer all questions in short to the best of your ability keeping in mind this that The cintel Department data starts here Eligibility for the B.Tech and M.Tech Integrated Programs under the Regular Stream at SRM University requires candidates to be Resident Indians or Non-Resident Indians, holders of PIO or OCI cards issued by the Government of India. Applicants should have attained the age of 16 years and 6 months on July 31 of the year in which the 12th Board examination is conducted. They must have passed or be appearing for the Higher Secondary examination with a minimum of 60% aggregate in three subjects: Physics and Mathematics, along with one of the following: Chemistry, Biotechnology, Biology, Computer Science, Information Technology, Informatics Practices, Engineering Graphics, Botany, or Zoology. For GCE A-level candidates, Physics and Mathematics are compulsory, along with one subject from the same list. International Baccalaureate diploma holders must have two subjects in HL and one subject in SL, with specific requirements for B.Tech Programs offered by Biotechnology, Genetic Engineering, and Biomedical Engineering. Students who have not studied Mathematics must undertake additional courses in their first year, and those who have not studied Chemistry should complete a bridge course. Eligibility for the B.Des Program requires a pass in the 10+2 examination with a minimum of 50% aggregate, while preference is given to candidates with a UCEED score. For the B.Arch Program, candidates must have passed the 10+2 examination with at least 50% aggregate in Physics, Chemistry, and Mathematics, or a 10+3 Diploma with Mathematics as a compulsory subject, and qualify in an Aptitude Test in Architecture conducted by the appropriate authority, adhering to the norms prescribed by the Council of Architecture. offers a range of specialized programs in Artificial Intelligence, Computer Science, and Software Engineering. The BTech in Artificial Intelligence is a 4 year program with an annual fee of ₹ 4,25,000 and an intake capacity of 180 students. The MTech Integrated in Computer Science and Engineering with Specialization in Cognitive Computing spans 5 years, with an annual fee of ₹ 3,75,000 and an intake of 30 students. Additionally, a Minor Degree Program in Artificial Intelligence is available for an annual fee of ₹ 75,000. For those interested in a combined focus on AI and Machine Learning, the BTech in Computer Science and Engineering with Specialization in Artificial Intelligence and Machine Learning is a 4 year course, priced at ₹ 4,75,000 annually, with a large intake of 420 students. Similarly, the BTech in Computer Science and Engineering with Specialization in Software Engineering is another 4 year program with an annual fee of ₹ 4,25,000 and an intake of 180 students. For postgraduate students, the department offers part-time options in collaboration with Great Learning. The MTech in Artificial Intelligence Part time is a 3 year program with a total fee of ₹ 5,00,000 and an intake of 120. The MTech in Artificial Intelligence and Data Science Part time follows the same structure, with a total fee of ₹ 5,00,000 for the entire 3 year duration and an intake of 120 students. Lastly, the MTech Integrated in Artificial Intelligence is a 5 year course with an annual fee of ₹ 3,75,000 and an intake of 60 students cintel computational intelligence dep data ends  SRM University offers a wide range of undergraduate and postgraduate programs across various faculties, including Engineering & Technology, Law, Design, Architecture, Science, and Humanities. Some key programs include the B. Tech – Automotive Engineering (ARAI) program, which has a duration of 4 years, an annual fee of ₹2,88,500, and an intake of 30 students; the B. Tech – Artificial Intelligence program with a 4-year duration; the B.Arch – Architecture program, which has an annual fee of ₹2,75,000; the B.Des – Interior Design program, which has an intake of 30 students; and the B.S. Physics program, with a duration of 4 years and an annual fee of ₹60,000. SRM also provides distance education options that include undergraduate, postgraduate, and diploma programs, which can be pursued in regular, online, or distance learning modes. The university offers scholarships for undergraduate students based on merit, sports achievements, and other criteria. Under its Faculty of Law, SRM offers five-year undergraduate law programs such as B.A. LL.B (Hons.), B.Com. LL.B (Hons.), and BBA LL.B (Hons.), with an annual fee of ₹2,00,000 and a total intake of 120 students. Eligibility for these law programs requires candidates to pass the 10+2 examination in regular mode with a minimum aggregate of 60%, and students with a gap of two or more years will not be considered. Career opportunities for law graduates include roles such as Law Clerk, Legal Associate, Litigation Lawyer, Criminal Lawyer, Legal Analyst, Company Secretary, and Legal Advisor, with an average starting package of ₹3.6 lakhs per annum. Graduates can also pursue higher studies, including LLM, MBA, MA in Criminology, Public Administration, Political Science, Sociology, or Psychology, among others. SRM University is located across multiple campuses, including Andhra Pradesh (AP), Haryana, and Sikkim, and has been ranked 18th in the University category by NIRF 2023, along with a QS 4-Star 'Diamond' Rating and NAAC A++ Grade. The university’s engineering programs include offerings such as B. Tech – Automotive Engineering and B. Tech – Artificial Intelligence, while its Faculty of Science and Humanities features programs like B.S. Physics. SRM's Law School offers experiential learning with moot court exercises, an industry-relevant curriculum, and collaborations with global law schools. The counseling dates for MDS programs and admissions for Science and Humanities UG/PG programs are updated on the SRM website. Applications for law programs require students to register on the SRM website, verify their email, fill out the application form, upload required documents, and pay the application fee. For admissions to the SRMJEEM MBA program, students can fill out an online application form. The fee structure for postgraduate programs varies by course and campus, and details can be found on the SRM website. The helpdesk is available Monday to Saturday from 9:00 AM to 5:00 PM, except public holidays, and can be reached at +91 80 69087000, or via email at admissions.india@srmist.edu.in. For campus tours, you can contact SRM directly through the admissions section of the website.Eligibility for M.Tech programs at SRM University requires a four-year undergraduate degree in relevant fields. For Aerospace Engineering, students must hold a degree in Aerospace, Aeronautical, Mechanical, Automobile, Mechatronics, Production, Civil, Chemical, or Instrumentation Engineering. The Automotive Hybrid Systems Engineering program accepts candidates with degrees in Mechanical, Automobile, Aeronautical, Mechatronics, Production, Electrical, ECE, EEE, Electronics, or Instrumentation & Control Engineering, with a minimum aggregate of 50% and preference for those with a GATE score or relevant experience. The Automation and Robotics program requires a Bachelor’s degree in Engineering, Mathematics, or Statistics, with a minimum of 50% aggregate, excluding B.Tech in Biotechnology and Food Technology. Biomedical Engineering candidates should have a Bachelor’s degree in Engineering or an M.Sc, MBBS, BPT, or BOT with 50% aggregate. Biotechnology applicants must hold a B.E/B.Tech in Chemical Engineering, Biotechnology, or related fields, or an equivalent degree with 50% aggregate. Chemical Engineering eligibility includes a B.E/B.Tech in relevant engineering fields or a B.S/M.Sc in Chemistry with 50% aggregate. For Cloud Computing, candidates should have a Bachelor’s degree in Engineering or Mathematics with 50% aggregate, excluding Biotechnology and Food Technology. The Computer Aided Design program requires a degree in Mechanical, Production, Automobile, Aerospace, or Mechatronics Engineering with 50% aggregate. For Computer Science and Engineering, candidates need a Bachelor’s degree in Engineering, Mathematics, or Statistics, or an MCA/M.Sc with a minimum of 50% aggregate. Other programs like Computer Science and Engineering with a specialization in Artificial Intelligence and Machine Learning, Construction Engineering and Management, Electronics and Control Engineering, and various other fields also require similar qualifications with 50% aggregate. Specific eligibility requirements apply for programs like Embedded System Technology, Environmental Engineering, Food and Nutritional Biotechnology, Genetic Engineering, Information Security and Cyber Forensics, Internet of Things, Mechatronics Engineering, Nanotechnology, Power Electronics and Drives, Robotics, and Thermal Engineering. The eligibility for each program may vary, so candidates are encouraged to check the specific requirements for their chosen field.",
+        ),
+        MessagesPlaceholder(variable_name="messages"),
+    ]
+)
+
+chain = prompt | model
+with_message_history = RunnableWithMessageHistory(chain, get_session_history)
+response = with_message_history.invoke(
+    [HumanMessage(content="Hi! I'm Jim, I want to ask about fees in srm for law")],
+    config=config,
+)
+
+def get_srm_response(request):
+    # Send the request to the LangChain model
+    response = with_message_history.invoke(
+        [HumanMessage(content=request)],
+        config={"configurable": {"session_id": "abc2"}}
+    )
+    return response.content

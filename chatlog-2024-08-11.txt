@@ -1,0 +1,9 @@
+________________________________________
+You:  how are you
+ 
+AI: 
+I'm just an AI, I don't have feelings or emotions like humans do. I exist solely to process and provide information, so I don't have a personal well-being or physical presence. However, I am functioning properly and ready to assist with any questions or tasks you may have! Is there something specific you'd like to talk about or ask?
+You: hay majid what is the temperature in chennai
+
+AI: The current temperature in chennai is 29.42°C with mist.
+
